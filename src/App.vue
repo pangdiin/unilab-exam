@@ -1,12 +1,40 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link v-if="isLoggedIn" to="/login" v-on:click.native="logout" replace>Logout</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  name: "App",
+  data() {
+    return {
+      mockAccount: {
+        username: "admin",
+        password: "password"
+      }
+    };
+  },
+  mounted() {},
+  computed: {
+    ...mapGetters({
+      isLoggedIn: "isLoggedIn"
+    })
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
+    }
+  }
+};
+</script>
+
 
 <style>
 #app {
